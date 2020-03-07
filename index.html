@@ -1,1 +1,65 @@
-<h1>hello</h1>
+<html>
+  <header>
+
+  </header>
+  <body>
+
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '428537887216365',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v6.0'
+        });
+          
+        FB.AppEvents.logPageView();   
+          
+      };
+    
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "https://connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+       function statusChangeCallback(response) {
+        var div = document.getElementById('fblog');
+        div.innerHTML += JSON.stringify(response) +'<br>';
+        if (response.status === 'connected') {
+          FB.api(
+              "/me?fields=email,name,first_name,last_name,picture,middle_name,short_name,name_format",
+              function (response1) {
+                if (response1 && !response1.error) {
+                  var div = document.getElementById('melog');
+                    div.innerHTML += JSON.stringify(response1) +'<br>';
+                }
+              }
+          );
+        }
+       }
+       window.onload = function () {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+       }
+       function checkLoginState() {
+          FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+          });
+        }
+    </script>
+        <fb:login-button 
+          scope="public_profile,email"
+          onlogin="checkLoginState();">
+        </fb:login-button>
+        <div id='fblog'>
+
+        </div>
+        <h1>Me Response</h1>
+        <div id='melog'>
+
+        </div>
+  </body>
+</html>
