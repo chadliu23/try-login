@@ -1,6 +1,7 @@
 <html>
   <header>
-
+    <meta name="google-signin-client_id" content="197449012535-hoa016gtknrls13bo0722pjldiqic3ig.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </header>
   <body>
 
@@ -49,6 +50,18 @@
             statusChangeCallback(response);
           });
         }
+        function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          var div = document.getElementById('googlelog');
+          div.innerHTML = 'ID: ' + profile.getId()+'<br>' 
+          + 'Name: ' + profile.getName() + '<br>'+ 
+          'Email: ' + profile.getEmail() + '<br>'+
+          '<img src="' + profile.getImageUrl() + '">';
+          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
     </script>
         <fb:login-button 
           scope="public_profile,email"
@@ -59,6 +72,10 @@
         </div>
         <h1>Me Response</h1>
         <div id='melog'>
+
+        </div>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <div id='googlelog'>
 
         </div>
   </body>
